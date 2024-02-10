@@ -1,93 +1,96 @@
+# This file is part of project scrapy-gulfoodexhibitors.
+#
+# Project scrapy-gulfoodexhibitors is free software: you can redistribute it
+# and/or modify it under the terms of the GNU General Public License as
+# published by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Project scrapy-gulfoodexhibitors is distributed in the hope that it will be
+# useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+# Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# project scrapy-gulfoodexhibitors. If not, see <https://www.gnu.org/licenses/>.
+
+##
 # Scrapy settings for gulfoodexhibitors project
 #
 # For simplicity, this file contains only settings considered important or
-# commonly used. You can find more settings consulting the documentation:
+# commonly used. You can find more settings consulting the documentation linked
+# below.
 #
-#     https://docs.scrapy.org/en/latest/topics/settings.html
-#     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-#     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
+# @copyright  2024 Geoffrey Bernardo van Wyk {@link https://geoffreyvanwyk.dev}
+# @link       https://docs.scrapy.org/en/latest/topics/settings.html
+# @link       https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
+# @link       https://docs.scrapy.org/en/latest/topics/spider-middleware.html
+##
+
+from datetime import datetime
+
+import pytz
+from scrapy.utils.misc import os
+
+# ------ Context
+
+today = datetime.now(pytz.timezone("Africa/Johannesburg"))
+current_date = today.strftime("%Y-%m-%d")
+current_time = today.strftime("%H-%M-%S%z")
+
+# ------ Spiders
 
 BOT_NAME = "gulfoodexhibitors"
 
 SPIDER_MODULES = ["gulfoodexhibitors.spiders"]
 NEWSPIDER_MODULE = "gulfoodexhibitors.spiders"
 
-
-# Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = "gulfoodexhibitors (+http://www.yourdomain.com)"
-
-# Obey robots.txt rules
-ROBOTSTXT_OBEY = True
-
-# Configure maximum concurrent requests performed by Scrapy (default: 16)
-#CONCURRENT_REQUESTS = 32
-
-# Configure a delay for requests for the same website (default: 0)
-# See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
-# See also autothrottle settings and docs
-#DOWNLOAD_DELAY = 3
-# The download delay setting will honor only one of:
-#CONCURRENT_REQUESTS_PER_DOMAIN = 16
-#CONCURRENT_REQUESTS_PER_IP = 16
-
-# Disable cookies (enabled by default)
-#COOKIES_ENABLED = False
-
-# Disable Telnet Console (enabled by default)
-#TELNETCONSOLE_ENABLED = False
-
-# Override the default request headers:
-#DEFAULT_REQUEST_HEADERS = {
-#    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-#    "Accept-Language": "en",
-#}
-
-# Enable or disable spider middlewares
-# See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-#SPIDER_MIDDLEWARES = {
-#    "gulfoodexhibitors.middlewares.GulfoodexhibitorsSpiderMiddleware": 543,
-#}
-
-# Enable or disable downloader middlewares
-# See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    "gulfoodexhibitors.middlewares.GulfoodexhibitorsDownloaderMiddleware": 543,
-#}
-
-# Enable or disable extensions
-# See https://docs.scrapy.org/en/latest/topics/extensions.html
-#EXTENSIONS = {
-#    "scrapy.extensions.telnet.TelnetConsole": None,
-#}
-
-# Configure item pipelines
-# See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    "gulfoodexhibitors.pipelines.GulfoodexhibitorsPipeline": 300,
-#}
-
-# Enable and configure the AutoThrottle extension (disabled by default)
-# See https://docs.scrapy.org/en/latest/topics/autothrottle.html
-#AUTOTHROTTLE_ENABLED = True
-# The initial download delay
-#AUTOTHROTTLE_START_DELAY = 5
-# The maximum download delay to be set in case of high latencies
-#AUTOTHROTTLE_MAX_DELAY = 60
-# The average number of requests Scrapy should be sending in parallel to
-# each remote server
-#AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
-# Enable showing throttling stats for every response received:
-#AUTOTHROTTLE_DEBUG = False
-
-# Enable and configure HTTP caching (disabled by default)
-# See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings
-#HTTPCACHE_ENABLED = True
-#HTTPCACHE_EXPIRATION_SECS = 0
-#HTTPCACHE_DIR = "httpcache"
-#HTTPCACHE_IGNORE_HTTP_CODES = []
-#HTTPCACHE_STORAGE = "scrapy.extensions.httpcache.FilesystemCacheStorage"
-
 # Set settings whose default value is deprecated to a future-proof value
 REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
+
+# ------ Responsible Scraping
+
+ROBOTSTXT_OBEY = True
+
+## ------------ Autothrottling
+
+# Limit the rate at which requests are made so that the web server is not
+# overloaded.
+AUTOTHROTTLE_ENABLED = True
+
+# The average number of requests Scrapy should be sending in parallel to
+# each remote server.
+AUTOTHROTTLE_TARGET_CONCURRENCY = 6.0
+
+# ------ Pipelines
+
+# ITEM_PIPELINES = {
+#    "gulfoodexhibitors.pipelines.GulfoodexhibitorsPipeline": 300,
+# }
+
+
+# ------ Caching
+
+# Cache responses received from the web server. This is especially useful
+# during development, because the requests for which responses have been cached
+# are not sent to the web server again, reducing the load on the web server and
+# speeding up the development cycle.
+HTTPCACHE_ENABLED = True
+
+# ------ Feed Exports
+
 FEED_EXPORT_ENCODING = "utf-8"
+FEED_EXPORT_INDENT = 4
+
+# ------ Logging
+
+LOG_ENABLED = True
+
+# Create log file.
+logs_directory = f"logs/{current_date}"
+os.makedirs(logs_directory, exist_ok=True)
+log_filename = f"gulfoodexhibitors-{current_date}T{current_time}.log"
+log_file = "/".join([logs_directory, log_filename])
+open(log_file, "a").close()
+
+LOG_FILE = log_file
