@@ -39,7 +39,7 @@ class ExhibitorsSpider(scrapy.Spider):
     def parse(self, response, **kwargs):
         total_pages = response.xpath(
             "//li[@class='pagination__list__item']/a[@element='last']/@data-page"
-        )
+        ).get()
         if kwargs["page_number"] <= int(total_pages):
             yield self.make_request(page_number=kwargs["page_number"])
 
