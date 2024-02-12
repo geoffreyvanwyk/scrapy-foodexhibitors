@@ -4,7 +4,125 @@ import scrapy
 class ExhibitorsSpider(scrapy.Spider):
     name = "exhibitors"
     allowed_domains = ["gulfood.com"]
-    start_urls = ["https://gulfood.com"]
 
-    def parse(self, response):
-        pass
+    def make_request(self, page_number):
+        return scrapy.Request(
+            f"https://gulfood.com/exhibitors?page={page_number}&searchgroup=D1CFEFEE-exhibitorslist-2024",
+            callback=self.parse,
+            cb_kwargs={"page_number": page_number + 1},
+        )
+
+    def start_requests(self):
+        yield self.make_request(page_number=1)
+
+    def parse(self, response, **kwargs):
+        total_pages = response.xpath(
+            "//li[@class='pagination__list__item']/a[@element='last']/@data-page"
+        )
+        if kwargs["page_number"] <= int(total_pages):
+            yield self.make_request(page_number=kwargs["page_number"])
+
+        exhibitor_rows = response.xpath(
+            "//li[@class='m-exhibitors-list__items__item m-exhibitors-list__items__item--status-mainexhibitor']"
+        )
+        for exhibitor_row in exhibitor_rows:
+            yield self.parse_exhibitor_row(exhibitor_row)
+
+    def parse_exhibitor_row(self, exhibitor_row):
+        exhibitor = {
+            "company_name": exhibitor_row.xpath(
+                ".//h2[@class='m-exhibitors-list__items__item__name']/a/text()"
+            )
+            .get()
+            .strip(),
+            "sector": self.sector(
+                exhibitor_row.xpath(
+                    ".//*[@class='m-exhibitors-list__items__item__category']/img[@class='key-item__icon']/@src"
+                ).get()
+            ),
+            "country": exhibitor_row.xpath(
+                ".//*[@class='m-exhibitors-list__items__item__location']/text()"
+            )
+            .get()
+            .strip(),
+            "gulfood_page": self.exhibitor_page_url(exhibitor_row),
+        }
+
+        return scrapy.Request(
+            exhibitor_page_url,
+            callback=self.parse_exhibitor,
+            cb_kwargs={"exhibitor": exhibitor},
+        )
+
+    def parse_exhibitor(self, response, **kwargs):
+        exhibitor = kwargs["exhibitor"]
+
+        exhibitor["description"] = (
+            response.xpath(
+                "//*[@class='m-exhibitor-entry__item__body__description']/text()"
+            )
+            .get()
+            .strip()
+        )
+
+        exhibitor["specialities"] = " | ".join(
+            filter(
+                lambda v: v != "",
+                map(
+                    lambda v: v.replace("\t", "")
+                    .replace("\r", "")
+                    .replace("\n", "")
+                    .replace("|", "")
+                    .strip(),
+                    response.xpath(
+                        "//*[@class='m-exhibitor-entry__item__header__infos__categories__item']/text()"
+                    ).getall(),
+                ),
+            )
+        )
+
+        exhibitor["address"] = list(
+            filter(
+                lambda v: v != "",
+                map(
+                    lambda v: v.replace("\t", "")
+                    .replace("\r", "")
+                    .replace("\n", "")
+                    .strip(),
+                    response.xpath(
+                        "//*[@class='m-exhibitor-entry__item__body__contacts__address']/text()"
+                    ).getall(),
+                ),
+            )
+        )[0]
+
+        exhibitor["website"] = response.xpath(
+            "//*[@class='m-exhibitor-entry__item__body__contacts__additional__button__website']/a/@href"
+        ).get()
+
+        return exhibitor
+
+    def sector(self, icon):
+        sectors_by_icon = {
+            "https://cdn.asp.events/CLIENT_Dubai_Wo_4B15F265_5056_B739_54F3125D47F0BC95/sites/gulfood-2024/media/2021icons/worldfood.png": "World Food",
+            "https://cdn.asp.events/CLIENT_Dubai_Wo_4B15F265_5056_B739_54F3125D47F0BC95/sites/gulfood-2024/media/2021icons/pulsesgrainscereals.png": "Pulses, Grains & Cereals",
+            "https://cdn.asp.events/CLIENT_Dubai_Wo_4B15F265_5056_B739_54F3125D47F0BC95/sites/gulfood-2024/media/2021icons/beverages.png": "Beverages",
+            "https://cdn.asp.events/CLIENT_Dubai_Wo_4B15F265_5056_B739_54F3125D47F0BC95/sites/gulfood-2024/media/2021icons/meatpoultry.png": "Meat & Poultry",
+            "https://cdn.asp.events/CLIENT_Dubai_Wo_4B15F265_5056_B739_54F3125D47F0BC95/sites/gulfood-2024/media/2021icons/powerbrands.png": "Power Brands",
+            "https://cdn.asp.events/CLIENT_Dubai_Wo_4B15F265_5056_B739_54F3125D47F0BC95/sites/gulfood-2024/media/2021icons/fatsoils.png": "Fats & Oils",
+            "https://cdn.asp.events/CLIENT_Dubai_Wo_4B15F265_5056_B739_54F3125D47F0BC95/sites/gulfood-2024/media/2021icons/dairy.png": "Dairy",
+        }
+
+        if icon not in sectors_by_icon:
+            return ""
+
+        return sectors_by_icon[icon]
+
+    def exhibitor_page_url(self, exhibitor_row):
+        logo_href = exhibitor_row.xpath(
+            ".//a[contains(@class, 'm-exhibitors-list__items__item__logo__link')]/@href"
+        ).get()
+
+        return "https://gulfood.com/" + logo_href.removeprefix(
+            "javascript:openRemoteModal("
+        ).split(",")[0].strip("'")

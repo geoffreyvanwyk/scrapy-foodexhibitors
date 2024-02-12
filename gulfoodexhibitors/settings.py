@@ -50,7 +50,7 @@ TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 
 # ------ Responsible Scraping
 
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 ## ------------ Autothrottling
 
@@ -81,6 +81,15 @@ HTTPCACHE_ENABLED = True
 
 FEED_EXPORT_ENCODING = "utf-8"
 FEED_EXPORT_INDENT = 4
+
+FEED_EXPORTERS = {
+    "xlsx": "scrapy_xlsx.XlsxItemExporter",
+}
+
+FEEDS = {
+    f"feeds/{current_date}/%(name)s-%(time)s.xlsx": {"format": "xlsx"},
+    f"feeds/{current_date}/%(name)s-%(time)s.json": {"format": "json"},
+}
 
 # ------ Logging
 
