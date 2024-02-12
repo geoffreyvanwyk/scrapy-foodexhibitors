@@ -20,14 +20,6 @@ in the project root directory.
 pip install --requirement requirements.txt
 ```
 
-To scrape information from this web page requires JavaScript interaction. That
-is handled by the scrapy-playwright plugin that is included among the
-dependencies. The headless browser that it uses must be installed next.
-
-```shell
-playwright install chrome
-```
-
 ## Usage
 
 Run the webscraper as follows:
@@ -36,9 +28,9 @@ Run the webscraper as follows:
 scrapy crawl exhibitors
 ```
 
-The data will be collected in both Excel spreadsheet format in the _feeds_
-directory inside a subdirectory named according to the date. Each feed file's
-name will also include the date and time.
+The data will be collected in both Excel spreadsheet format and JSON in the
+_feeds_ directory inside a subdirectory named according to the date. Each feed
+file's name will also include the date and time.
 
 The output of the crawl will not be output to stdout but to a log file in the
 _logs_ directory with the same structure as the _feeds_ directory.
