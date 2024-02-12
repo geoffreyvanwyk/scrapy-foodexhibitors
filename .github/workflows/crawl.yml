@@ -1,0 +1,62 @@
+---
+# This file is part of project scrapy-gulfoodexhibitors.
+#
+# Project scrapy-gulfoodexhibitors is free software: you can redistribute it
+# and/or modify it under the terms of the GNU General Public License as
+# published by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Project scrapy-gulfoodexhibitors is distributed in the hope that it will be
+# useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+# Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# project scrapy-gulfoodexhibitors. If not, see <https://www.gnu.org/licenses/>.
+
+##
+# Manual workflow for crawling with the spider.
+#
+# @copyright  2024 Geoffrey Bernardo van Wyk {@link https://geoffreyvanwyk.dev}
+##
+
+name: Crawl
+on: workflow_dispatch # yamllint disable-line rule:truthy
+
+jobs:
+  crawl:
+    name: Collect exhibitors
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Check out the codebase
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.12"
+
+      - name: Install required Python packages
+        run: pip3 install --requirement requirements.txt
+
+      - name: Crawl with the spider
+        run: scrapy crawl exhibitors
+
+      - name: Upload JSON file
+        uses: actions/upload-artifact@v4
+        with:
+          name: gulfoodexhibitors-json
+          path: feeds/**/*.json
+
+      - name: Upload Excel file
+        uses: actions/upload-artifact@v4
+        with:
+          name: gulfoodexhibitors-xlsx
+          path: feeds/**/*.xlsx
+
+      - name: Upload log file
+        uses: actions/upload-artifact@v4
+        with:
+          name: gulfoodexhibitors-log
+          path: logs/**/*.log
