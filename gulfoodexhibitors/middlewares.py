@@ -1,12 +1,30 @@
+# This file is part of project scrapy-gulfoodexhibitors.
+#
+# Project scrapy-gulfoodexhibitors is free software: you can redistribute it
+# and/or modify it under the terms of the GNU General Public License as
+# published by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Project scrapy-gulfoodexhibitors is distributed in the hope that it will be
+# useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+# Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# project scrapy-gulfoodexhibitors. If not, see <https://www.gnu.org/licenses/>.
+
+##
 # Define here the models for your spider middleware
 #
 # See documentation in:
-# https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-
-from scrapy import signals
+# {@link https://docs.scrapy.org/en/latest/topics/spider-middleware.html}
+#
+# @copyright  2024 Geoffrey Bernardo van Wyk {@link https://geoffreyvanwyk.dev}
+##
 
 # useful for handling different item types with a single interface
-from itemadapter import is_item, ItemAdapter
+from itemadapter import ItemAdapter, is_item
+from scrapy import signals
 
 
 class GulfoodexhibitorsSpiderMiddleware:
