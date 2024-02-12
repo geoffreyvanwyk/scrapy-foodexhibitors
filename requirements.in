@@ -1,5 +1,5 @@
 scrapy
-scrapy-playwright
-bpython
-pip-tools
+scrapy-xlsx
 pytz
+pip-tools
+bpython
