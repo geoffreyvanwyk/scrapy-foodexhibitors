@@ -104,7 +104,7 @@ class ExhibitorsSpider(scrapy.Spider):
             )
         )
 
-        exhibitor["address"] = list(
+        address_list = list(
             filter(
                 lambda v: v != "",
                 map(
@@ -117,7 +117,8 @@ class ExhibitorsSpider(scrapy.Spider):
                     ).getall(),
                 ),
             )
-        )[0]
+        )
+        exhibitor["address"] = address_list[0] if address_list else ""
 
         exhibitor["website"] = response.xpath(
             "//*[@class='m-exhibitor-entry__item__body__contacts__additional__button__website']/a/@href"
