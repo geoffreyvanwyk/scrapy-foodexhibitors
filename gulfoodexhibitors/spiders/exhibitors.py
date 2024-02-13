@@ -50,6 +50,8 @@ class ExhibitorsSpider(scrapy.Spider):
             yield self.parse_exhibitor_row(exhibitor_row)
 
     def parse_exhibitor_row(self, exhibitor_row):
+        exhibitor_page_url = self.exhibitor_page_url(exhibitor_row)
+
         exhibitor = {
             "company_name": exhibitor_row.xpath(
                 ".//h2[@class='m-exhibitors-list__items__item__name']/a/text()"
@@ -66,7 +68,7 @@ class ExhibitorsSpider(scrapy.Spider):
             )
             .get()
             .strip(),
-            "gulfood_page": self.exhibitor_page_url(exhibitor_row),
+            "gulfood_page": exhibitor_page_url,
         }
 
         return scrapy.Request(
