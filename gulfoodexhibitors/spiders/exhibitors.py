@@ -56,17 +56,17 @@ class ExhibitorsSpider(scrapy.Spider):
             "company_name": exhibitor_row.xpath(
                 ".//h2[@class='m-exhibitors-list__items__item__name']/a/text()"
             )
-            .get()
+            .get("")
             .strip(),
             "sector": self.sector(
                 exhibitor_row.xpath(
                     ".//*[@class='m-exhibitors-list__items__item__category']/img[@class='key-item__icon']/@src"
-                ).get()
+                ).get("")
             ),
             "country": exhibitor_row.xpath(
                 ".//*[@class='m-exhibitors-list__items__item__location']/text()"
             )
-            .get()
+            .get("")
             .strip(),
             "gulfood_page": exhibitor_page_url,
         }
@@ -84,7 +84,7 @@ class ExhibitorsSpider(scrapy.Spider):
             response.xpath(
                 "//*[@class='m-exhibitor-entry__item__body__description']/text()"
             )
-            .get()
+            .get("")
             .strip()
         )
 
@@ -122,7 +122,7 @@ class ExhibitorsSpider(scrapy.Spider):
 
         exhibitor["website"] = response.xpath(
             "//*[@class='m-exhibitor-entry__item__body__contacts__additional__button__website']/a/@href"
-        ).get()
+        ).get("")
 
         return exhibitor
 
@@ -145,7 +145,7 @@ class ExhibitorsSpider(scrapy.Spider):
     def exhibitor_page_url(self, exhibitor_row):
         logo_href = exhibitor_row.xpath(
             ".//a[contains(@class, 'm-exhibitors-list__items__item__logo__link')]/@href"
-        ).get()
+        ).get("")
 
         return "https://gulfood.com/" + logo_href.removeprefix(
             "javascript:openRemoteModal("
