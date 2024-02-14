@@ -24,11 +24,11 @@ import scrapy
 
 class ExhibitorsSpider(scrapy.Spider):
     name = "exhibitors"
-    allowed_domains = ["gulfood.com"]
+    allowed_domains = ["www.gulfood.com", "gulfood.com"]
 
     def make_request(self, page_number):
         return scrapy.Request(
-            f"https://gulfood.com/exhibitors?page={page_number}&searchgroup=D1CFEFEE-exhibitorslist-2024",
+            f"https://www.gulfood.com/exhibitors?page={page_number}&searchgroup=D1CFEFEE-exhibitorslist-2024",
             callback=self.parse,
             cb_kwargs={"page_number": page_number + 1},
         )
@@ -72,7 +72,9 @@ class ExhibitorsSpider(scrapy.Spider):
         }
 
         return scrapy.Request(
-            exhibitor_page_url,
+            exhibitor_page_url.replace(
+                "https://gulfood.com", "https://www.gulfood.com"
+            ),
             callback=self.parse_exhibitor,
             cb_kwargs={"exhibitor": exhibitor},
         )
