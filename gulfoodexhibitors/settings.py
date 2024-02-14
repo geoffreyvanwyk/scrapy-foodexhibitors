@@ -60,7 +60,7 @@ AUTOTHROTTLE_ENABLED = True
 
 # The average number of requests Scrapy should be sending in parallel to
 # each remote server.
-AUTOTHROTTLE_TARGET_CONCURRENCY = 6.0
+AUTOTHROTTLE_TARGET_CONCURRENCY = 3.0
 
 # ------ Downloader Middlewares
 
