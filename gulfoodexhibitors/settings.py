@@ -35,7 +35,7 @@ from scrapy.utils.misc import os
 
 today = datetime.now(pytz.timezone("Africa/Johannesburg"))
 current_date = today.strftime("%Y-%m-%d")
-current_time = today.strftime("%H-%M-%S%z")
+current_time = today.strftime("%H-%M%z")
 
 # ------ Spiders
 
@@ -96,8 +96,12 @@ FEED_EXPORTERS = {
 }
 
 FEEDS = {
-    f"feeds/{current_date}/%(name)s-%(time)s.xlsx": {"format": "xlsx"},
-    f"feeds/{current_date}/%(name)s-%(time)s.json": {"format": "json"},
+    f"feeds/{current_date}/%(name)s-{current_date}T{current_time}.xlsx": {
+        "format": "xlsx"
+    },
+    f"feeds/{current_date}/%(name)s-{current_date}T{current_time}.json": {
+        "format": "json"
+    },
 }
 
 # ------ Logging
