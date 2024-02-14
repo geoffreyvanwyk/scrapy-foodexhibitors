@@ -62,6 +62,15 @@ AUTOTHROTTLE_ENABLED = True
 # each remote server.
 AUTOTHROTTLE_TARGET_CONCURRENCY = 6.0
 
+# ------ Downloader Middlewares
+
+DOWNLOADER_MIDDLEWARES = {
+    "scrapy.downloadermiddlewares.useragent.UserAgentMiddleware": None,
+    "random_useragent.RandomUserAgentMiddleware": 400,
+}
+
+USER_AGENT_LIST = "user_agents.txt"
+
 # ------ Pipelines
 
 # ITEM_PIPELINES = {

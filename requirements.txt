@@ -119,6 +119,8 @@ scrapy==2.11.0
     # via
     #   -r requirements.in
     #   scrapy-xlsx
+scrapy-random-useragent==0.2
+    # via -r requirements.in
 scrapy-xlsx==0.1.1
     # via -r requirements.in
 service-identity==24.1.0
