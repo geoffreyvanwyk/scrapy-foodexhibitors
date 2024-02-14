@@ -46,6 +46,9 @@ class ExhibitorsSpider(scrapy.Spider):
         exhibitor_rows = response.xpath(
             "//li[@class='m-exhibitors-list__items__item m-exhibitors-list__items__item--status-mainexhibitor']"
         )
+        self.logger.debug(
+            f'Exhibitor count on page {kwargs["page_number"]}: {len(exhibitor_rows)}'
+        )
         for exhibitor_row in exhibitor_rows:
             yield self.parse_exhibitor_row(exhibitor_row)
 
