@@ -1,7 +1,7 @@
-# Web Scraper for Exhibitors at Gulfood Expo
+# Web Scraper for Exhibitors at Food Producers Conference
 
-This is a web scraper for collecting information on all the exhibitors at a
-Gulfood expo from the web page https://gulfood.com/exhibitors.
+This is a web scraper written in Python using the Scrapy framework for
+collecting information on all the exhibitors at a food producers conference.
 
 ## Installation
 
@@ -39,23 +39,23 @@ Caching is enabled, which means that for each request the response is stored
 locally so that if a request is made again in a subsequent crawl, the request
 will not be sent to the server again. This saves time during development. In
 order to fetch new data, the caching must be disabled in the
-_gulfoodexhibitors/settings.py_ file.
+_foodexhibitors/settings.py_ file.
 
 ## License
 
 Copyright &copy; 2024 Geoffrey Bernardo van Wyk [https://geoffreyvanwyk.dev](https://geoffreyvanwyk.dev)
 
-This file is part of project scrapy-gulfoodexhibitors.
+This file is part of project scrapy-foodexhibitors.
 
-Project scrapy-gulfoodexhibitors is free software: you can redistribute it
+Project scrapy-foodexhibitors is free software: you can redistribute it
 and/or modify it under the terms of the GNU General Public License as
 published by the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
-Project scrapy-gulfoodexhibitors is distributed in the hope that it will be
+Project scrapy-foodexhibitors is distributed in the hope that it will be
 useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
 Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
-project scrapy-gulfoodexhibitors. If not, see <https://www.gnu.org/licenses/>.
+project scrapy-foodexhibitors. If not, see <https://www.gnu.org/licenses/>.

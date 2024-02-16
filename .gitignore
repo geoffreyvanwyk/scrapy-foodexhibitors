@@ -1,5 +1,5 @@
-/gulfoodexhibitors/__pycache__/
-/gulfoodexhibitors/spiders/__pycache__/
+/foodexhibitors/__pycache__/
+/foodexhibitors/spiders/__pycache__/
 /.scrapy/
 /feeds/
 /logs/

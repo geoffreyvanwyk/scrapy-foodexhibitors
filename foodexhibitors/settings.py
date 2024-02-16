@@ -1,20 +1,20 @@
-# This file is part of project scrapy-gulfoodexhibitors.
+# This file is part of project scrapy-foodexhibitors.
 #
-# Project scrapy-gulfoodexhibitors is free software: you can redistribute it
+# Project scrapy-foodexhibitors is free software: you can redistribute it
 # and/or modify it under the terms of the GNU General Public License as
 # published by the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# Project scrapy-gulfoodexhibitors is distributed in the hope that it will be
+# Project scrapy-foodexhibitors is distributed in the hope that it will be
 # useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
 # Public License for more details.
 #
 # You should have received a copy of the GNU General Public License along with
-# project scrapy-gulfoodexhibitors. If not, see <https://www.gnu.org/licenses/>.
+# project scrapy-foodexhibitors. If not, see <https://www.gnu.org/licenses/>.
 
 ##
-# Scrapy settings for gulfoodexhibitors project
+# Scrapy settings for foodexhibitors project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation linked
@@ -39,10 +39,10 @@ current_time = today.strftime("%H-%M%z")
 
 # ------ Spiders
 
-BOT_NAME = "gulfoodexhibitors"
+BOT_NAME = "foodexhibitors"
 
-SPIDER_MODULES = ["gulfoodexhibitors.spiders"]
-NEWSPIDER_MODULE = "gulfoodexhibitors.spiders"
+SPIDER_MODULES = ["foodexhibitors.spiders"]
+NEWSPIDER_MODULE = "foodexhibitors.spiders"
 
 # Set settings whose default value is deprecated to a future-proof value
 REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
@@ -74,7 +74,7 @@ USER_AGENT_LIST = "user_agents.txt"
 # ------ Pipelines
 
 # ITEM_PIPELINES = {
-#    "gulfoodexhibitors.pipelines.GulfoodexhibitorsPipeline": 300,
+#    "foodexhibitors.pipelines.FoodexhibitorsPipeline": 300,
 # }
 
 
@@ -111,7 +111,7 @@ LOG_ENABLED = True
 # Create log file.
 logs_directory = f"logs/{current_date}"
 os.makedirs(logs_directory, exist_ok=True)
-log_filename = f"gulfoodexhibitors-{current_date}T{current_time}.log"
+log_filename = f"foodexhibitors-{current_date}T{current_time}.log"
 log_file = "/".join([logs_directory, log_filename])
 open(log_file, "a").close()
 

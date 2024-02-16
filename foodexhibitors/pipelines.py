@@ -1,17 +1,17 @@
-# This file is part of project scrapy-gulfoodexhibitors.
+# This file is part of project scrapy-foodexhibitors.
 #
-# Project scrapy-gulfoodexhibitors is free software: you can redistribute it
+# Project scrapy-foodexhibitors is free software: you can redistribute it
 # and/or modify it under the terms of the GNU General Public License as
 # published by the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# Project scrapy-gulfoodexhibitors is distributed in the hope that it will be
+# Project scrapy-foodexhibitors is distributed in the hope that it will be
 # useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
 # Public License for more details.
 #
 # You should have received a copy of the GNU General Public License along with
-# project scrapy-gulfoodexhibitors. If not, see <https://www.gnu.org/licenses/>.
+# project scrapy-foodexhibitors. If not, see <https://www.gnu.org/licenses/>.
 
 ##
 # Define your item pipelines here
@@ -27,6 +27,6 @@
 from itemadapter import ItemAdapter
 
 
-class GulfoodexhibitorsPipeline:
+class FoodexhibitorsPipeline:
     def process_item(self, item, spider):
         return item
